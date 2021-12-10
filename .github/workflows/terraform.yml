@@ -43,10 +43,6 @@ jobs:
       run: terraform apply -auto-approve
 
       # Upload Artifact
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-key
-        path: test-key.pem
-        retention-days: 1
-        
+    
+     - name: Download all workflow run artifacts
+       uses: actions/download-artifact@v2   
