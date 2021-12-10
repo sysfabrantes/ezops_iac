@@ -29,9 +29,10 @@ resource "tls_private_key" "test_tls" {
 resource "aws_key_pair" "test_key" {
   key_name   = "test-key"
   public_key = tls_private_key.test_tls.public_key_openssh
+
   provisioner "local-exec" { 
     command = "echo '${ls_private_key.test_tls.private_key_pem}' > ./test-key.pem"
-  
+  }
 }
 
 resource "aws_security_group" "test_sg" {
