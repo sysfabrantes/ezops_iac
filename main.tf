@@ -9,10 +9,10 @@ terraform {
   }
 
   cloud {
-    organization = "beroot"
+    organization = "abrantes"
 
     workspaces {
-      name = "test-github-conection"
+      name = "ezops_iac"
     }
   }
 }
