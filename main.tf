@@ -21,9 +21,9 @@ provider "aws" {
   region     = "us-east-2"
 }
 
-# variable "public_key" {
-#   type        = string
-# }
+ variable "public_key" {
+   type        = string
+ }
 
 # resource "tls_private_key" "test_tls" {
 #   algorithm = "RSA"
