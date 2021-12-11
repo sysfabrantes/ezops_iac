@@ -50,13 +50,13 @@ resource "aws_instance" "test_instance" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.test_key.key_name
   vpc_security_group_ids  = [aws_security_group.test_sg.id]
-  user_data = << EOF
+  user_data = <<-EOF
               #!/bin/bash
               curl -fsSL https://get.docker.com -o get-docker.sh 
               sudo sh get-docker.sh 
               sudo apt-get install nginx -y 
               echo ${var.public_key} > /root/.ssh/authorized_keys
-  EOF
+              EOF
   tags = {
     Name = "test-instance"
   }
