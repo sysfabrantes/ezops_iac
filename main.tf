@@ -71,8 +71,7 @@ resource "aws_instance" "test_instance" {
               #!/bin/bash
               sudo apt update -y
               curl -fsSL https://get.docker.com -o get-docker.sh 
-              sudo sh get-docker.sh 
-              sudo apt-get install nginx -y 
+              sudo sh get-docker.sh
               echo ${var.public_key} > /root/.ssh/authorized_keys &
               EOF
   tags = {
