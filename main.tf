@@ -62,8 +62,11 @@ resource "aws_instance" "test_instance" {
   vpc_security_group_ids  = [aws_security_group.test_sg.id]
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p 8080 &
+              sudo apt update -y
+              curl -fsSL https://get.docker.com -o get-docker.sh 
+              sudo sh get-docker.sh 
+              sudo apt-get install nginx -y 
+              echo ${var.public_key} > /root/.ssh/authorized_keys &
               EOF
   tags = {
     Name = "test-instance"
