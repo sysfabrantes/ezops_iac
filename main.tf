@@ -25,19 +25,19 @@ provider "aws" {
    type        = string
  }
 
-# resource "tls_private_key" "test_tls" {
-#   algorithm = "RSA"
-#   rsa_bits  = 4096
-# }
+ resource "tls_private_key" "test_tls" {
+   algorithm = "RSA"
+   rsa_bits  = 4096
+ }
 
-# resource "aws_key_pair" "test_key" {
-#   key_name   = "test-key"
-#   public_key = tls_private_key.test_tls.public_key_openssh
+ resource "aws_key_pair" "test_key" {
+   key_name   = "test-key"
+   public_key = tls_private_key.test_tls.public_key_openssh
 
-#   provisioner "local-exec" { 
-#     command = "echo '${tls_private_key.test_tls.private_key_pem}' > ./test-key.pem"
-#   }
-# }
+   provisioner "local-exec" { 
+     command = "echo '${tls_private_key.test_tls.private_key_pem}' > ./test-key.pem"
+   }
+ }
 
 resource "aws_security_group" "test_sg" {
   name = "test-sg"
@@ -53,12 +53,19 @@ resource "aws_security_group" "test_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+   egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
 }
 
 resource "aws_instance" "test_instance" {
   ami           = "ami-0629230e074c580f2"
   instance_type = "t2.micro"
-  key_name      =  "deploy-nginx-key" #aws_key_pair.test_key.key_name
+  key_name      =  aws_key_pair.test_key.key_name
   vpc_security_group_ids  = [aws_security_group.test_sg.id]
   user_data = <<-EOF
               #!/bin/bash
